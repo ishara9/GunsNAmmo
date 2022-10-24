@@ -2,6 +2,7 @@ package com.zpybotlabs.gunsnammo.controller;
 
 import com.zpybotlabs.gunsnammo.pojo.Gun;
 import com.zpybotlabs.gunsnammo.service.GunService;
+import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,16 @@ public class GunControllerV2 {
 
   @GetMapping
   List<Gun> getGuns() {
-    return Arrays.asList(new Gun(100L, "V2 Ak47", "ZZ123"));
+    return Arrays.asList(new Gun(100L, "V2 Ak47", "email@mail.com", "ZZ123"));
   }
 
   @GetMapping(path = "{gunId}")
   Gun getGun(@PathVariable Long gunId) {
     return gunService.getGun(gunId);
+  }
+  @GetMapping(path = "{gunId}/ex")
+  Gun getGunEx(@PathVariable Long gunId) {
+    throw new ClientRequestException("gunId : "+gunId);
   }
 
   @PostMapping

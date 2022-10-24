@@ -9,6 +9,6 @@ public class GunRepository implements GunRepo {
 
   @Override
   public List<Gun> getGuns() {
-    return Collections.singletonList(new Gun(1L, "T-56", "QWERTY"));
+    return Collections.singletonList(new Gun(1L, "T-56", "email@mail.com", "QWERTY"));
   }
 }

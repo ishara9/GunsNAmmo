@@ -10,8 +10,8 @@ public class GunFakeRepo implements GunRepo {
   @Override
   public List<Gun> getGuns() {
     return Arrays.asList(
-        new Gun(1L, "Ak47", "QWERTY"),
-        new Gun(2L, "M-16", "QWERTY")
+        new Gun(1L, "Ak47", "email@mail.com", "QWERTY"),
+        new Gun(2L, "M-16", "email@mail.com", "QWERTY")
     );
   }
 }
