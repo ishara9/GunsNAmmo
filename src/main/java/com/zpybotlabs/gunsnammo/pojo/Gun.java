@@ -39,16 +39,18 @@ public class Gun {
     return id;
   }
 
-  public void setId(Long id) {
+  public Gun setId(Long id) {
     this.id = id;
+    return this;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public Gun setName(String name) {
     this.name = name;
+    return this;
   }
 
   @JsonIgnore
@@ -56,12 +58,18 @@ public class Gun {
     return securityKey;
   }
 
-  public void setSecurityKey(String securityKey) {
+  public Gun setSecurityKey(String securityKey) {
     this.securityKey = securityKey;
+    return this;
   }
 
   public String getEmail() {
     return email;
+  }
+
+  public Gun setEmail(String email) {
+    this.email = email;
+    return this;
   }
 
   @Override

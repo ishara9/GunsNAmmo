@@ -1,9 +1,9 @@
 package com.zpybotlabs.gunsnammo.controller;
 
+import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
 import com.zpybotlabs.gunsnammo.pojo.Gun;
 import com.zpybotlabs.gunsnammo.service.GunsService;
 import java.util.List;
-import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +31,13 @@ public class GunsController {
   }
 
   @GetMapping(path = "{gunId}")
-  Gun getGun(@Valid @PathVariable Long gunId) {
+  Gun getGun(@PathVariable Long gunId) {
     LOGGER.info("POST request...");
     return gunsService.getGun(gunId);
   }
 
   @PostMapping
-  void addGun(@Valid @RequestBody Gun gun) {
+  void addGun(@RequestBody Gun gun) {
     LOGGER.info("POST request...");
     LOGGER.debug("{}", gun);
   }
@@ -51,5 +51,10 @@ public class GunsController {
   void updateGun(@RequestBody Gun gun) {
     LOGGER.info("Update request");
     LOGGER.debug("{}", gun);
+  }
+
+  @GetMapping(path = "{gunId}/ex")
+  Gun getGunEx(@PathVariable Long gunId) {
+    throw new ClientRequestException("gunId : " + gunId);
   }
 }
