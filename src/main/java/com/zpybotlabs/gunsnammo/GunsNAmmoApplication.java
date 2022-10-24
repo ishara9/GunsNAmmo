@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GunsnammoApplication {
+public class GunsNAmmoApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(GunsnammoApplication.class, args);
+    SpringApplication.run(GunsNAmmoApplication.class, args);
   }
 
 }

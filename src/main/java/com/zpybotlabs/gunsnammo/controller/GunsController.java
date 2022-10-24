@@ -1,7 +1,7 @@
 package com.zpybotlabs.gunsnammo.controller;
 
 import com.zpybotlabs.gunsnammo.pojo.Gun;
-import com.zpybotlabs.gunsnammo.service.GunService;
+import com.zpybotlabs.gunsnammo.service.GunsService;
 import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -18,22 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(path = "api/v1/guns")
 @RestController
-public class GunController {
+public class GunsController {
 
   private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
   @Autowired
-  private GunService gunService;
+  private GunsService gunsService;
 
   @GetMapping
   List<Gun> getGuns() {
-    return gunService.getGuns();
+    return gunsService.getGuns();
   }
 
   @GetMapping(path = "{gunId}")
   Gun getGun(@Valid @PathVariable Long gunId) {
     LOGGER.info("POST request...");
-    return gunService.getGun(gunId);
+    return gunsService.getGun(gunId);
   }
 
   @PostMapping

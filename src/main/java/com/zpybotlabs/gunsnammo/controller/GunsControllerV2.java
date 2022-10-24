@@ -1,10 +1,12 @@
 package com.zpybotlabs.gunsnammo.controller;
 
 import com.zpybotlabs.gunsnammo.pojo.Gun;
-import com.zpybotlabs.gunsnammo.service.GunService;
+import com.zpybotlabs.gunsnammo.service.GunsService;
 import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(path = "api/v2/guns")
 @RestController
-public class GunControllerV2 {
+public class GunsControllerV2 {
 
+  private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
   @Autowired
-  private GunService gunService;
+  private GunsService gunsService;
 
   @GetMapping
   List<Gun> getGuns() {
@@ -29,7 +32,7 @@ public class GunControllerV2 {
 
   @GetMapping(path = "{gunId}")
   Gun getGun(@PathVariable Long gunId) {
-    return gunService.getGun(gunId);
+    return gunsService.getGun(gunId);
   }
   @GetMapping(path = "{gunId}/ex")
   Gun getGunEx(@PathVariable Long gunId) {
@@ -37,9 +40,9 @@ public class GunControllerV2 {
   }
 
   @PostMapping
-  void addGun(@RequestBody Gun gun) {
-    System.out.println("POST request...");
-    System.out.println(gun);
+  void addGuns(@RequestBody List<Gun> guns) {
+    LOGGER.info("POST request...");
+    gunsService.createGuns(guns);
   }
 
   @DeleteMapping(path = "{gunId}")

@@ -2,28 +2,36 @@ package com.zpybotlabs.gunsnammo.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+@Entity
+@Table
 public class Gun {
 
+  @Id
   Long id;
   @NotBlank(message = "name must not be empty!")
   String name;
 
   @NotBlank(message = "email must be not empty!")
   @Email
-  private final String email;
+  private String email;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   String securityKey;
+
+  public Gun() {
+  }
 
   public Gun(long id, String name, String email, String securityKey) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.securityKey = securityKey;
-
   }
 
   @JsonProperty("gunId")
