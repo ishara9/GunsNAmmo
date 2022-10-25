@@ -22,7 +22,7 @@ server:
         include-binding-errors: always
         include-message: always
         include-stacktrace: on_param
-    port: 8080
+    port: 4000
 spring:
     datasource:
         driverClassName: org.h2.Driver
