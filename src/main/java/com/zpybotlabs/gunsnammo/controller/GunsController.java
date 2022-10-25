@@ -1,8 +1,8 @@
 package com.zpybotlabs.gunsnammo.controller;
 
 import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
-import com.zpybotlabs.gunsnammo.pojo.Gun;
-import com.zpybotlabs.gunsnammo.service.GunsService;
+import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class GunsController {
 
-  private final GunsService gunsService;
+  private final GunsServiceImpl gunsService;
 
   @GetMapping
   List<Gun> getGuns() {

@@ -1,4 +1,4 @@
-package com.zpybotlabs.gunsnammo.exception;
+package com.zpybotlabs.gunsnammo.dto;
 
 import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,9 @@ import org.springframework.http.HttpStatus;
 @Data
 @ToString
 @AllArgsConstructor
-public class ApiException {
+public class ErrorDTO {
 
   private final String message;
-  private final Throwable throwable;
-  private final HttpStatus httpStatus;
   private final ZonedDateTime zonedDateTime;
 
 }

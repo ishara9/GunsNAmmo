@@ -1,54 +1,50 @@
 package com.zpybotlabs.gunsnammo.service;
 
-import com.zpybotlabs.gunsnammo.dao.GunsRepository;
 import com.zpybotlabs.gunsnammo.dto.PartialGunDTO;
-import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
-import com.zpybotlabs.gunsnammo.pojo.Gun;
+import com.zpybotlabs.gunsnammo.model.Gun;
 import java.util.List;
 import javax.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-@Service
-@Slf4j
-@AllArgsConstructor
-public class GunsService {
+public interface GunsService {
 
-  private final GunsRepository gunsRepository;
+  /**
+   * Get All guns
+   * @return
+   */
+  List<Gun> getGuns();
 
-  public List<Gun> getGuns() {
-    return gunsRepository.findAll();
-  }
+  /**
+   * Get a gun by Id
+   * @param gunId
+   * @return
+   */
+  Gun getGun(Long gunId);
 
-  public Gun getGun(Long gunId) {
-    log.debug("Get gun by Id: " + gunId);
-    return gunsRepository.findAll().stream().filter(gun -> gun.getId().equals(gunId)).findFirst()
-        .orElseThrow(() -> {
-          log.error("error when getting gun {}", gunId);
-          return new ServerRequestException(
-              "gun not found with gunId:" + gunId);
-        });
-  }
+  /**
+   * Add new set of guns
+   * @param guns
+   */
+  void createGuns(List<Gun> guns);
 
-  public void createGuns(List<Gun> guns) {
-    gunsRepository.saveAll(guns);
-  }
+  /**
+   * Delete a gun by Id
+   * @param gunId
+   */
+  void deleteGunById(Long gunId);
 
-  public void deleteGunById(Long gunId) {
-    gunsRepository.deleteById(gunId);
-  }
-
+  /**
+   * Update a gun by Id
+   * @param gun
+   * @param gunId
+   */
   @Transactional
-  public void updateGun(Gun gun, Long gunId) {
-    gunsRepository.findById(gunId)
-        .ifPresent(value -> value.setName(gun.getName()).setEmail(gun.getEmail())
-            .setSecurityKey(gun.getSecurityKey()));
-  }
+  void updateGun(Gun gun, Long gunId);
 
+  /**
+   * Add a patch to a gun
+   * @param partialGunDTO
+   * @param gunId
+   */
   @Transactional
-  public void updatePartialGun(PartialGunDTO partialGunDTO, Long gunId) {
-    gunsRepository.findById(gunId)
-        .ifPresent(value -> value.setName(partialGunDTO.getName()));
-  }
+  void updatePartialGun(PartialGunDTO partialGunDTO, Long gunId);
 }

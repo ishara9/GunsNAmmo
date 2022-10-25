@@ -6,8 +6,8 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 
-import com.zpybotlabs.gunsnammo.pojo.Gun;
-import com.zpybotlabs.gunsnammo.service.GunsService;
+import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class GunsControllerV2Test {
   private MockMvc mockMvc;
 
   @MockBean
-  private GunsService gunsService;
+  private GunsServiceImpl gunsService;
 
 
   @Test

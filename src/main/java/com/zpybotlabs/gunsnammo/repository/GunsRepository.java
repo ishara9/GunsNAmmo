@@ -1,6 +1,6 @@
-package com.zpybotlabs.gunsnammo.dao;
+package com.zpybotlabs.gunsnammo.repository;
 
-import com.zpybotlabs.gunsnammo.pojo.Gun;
+import com.zpybotlabs.gunsnammo.model.Gun;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

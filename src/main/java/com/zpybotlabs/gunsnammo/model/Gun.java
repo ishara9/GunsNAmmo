@@ -1,4 +1,4 @@
-package com.zpybotlabs.gunsnammo.pojo;
+package com.zpybotlabs.gunsnammo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

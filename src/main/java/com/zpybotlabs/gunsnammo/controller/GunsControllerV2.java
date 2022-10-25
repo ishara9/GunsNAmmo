@@ -1,8 +1,8 @@
 package com.zpybotlabs.gunsnammo.controller;
 
 import com.zpybotlabs.gunsnammo.dto.PartialGunDTO;
-import com.zpybotlabs.gunsnammo.pojo.Gun;
-import com.zpybotlabs.gunsnammo.service.GunsService;
+import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class GunsControllerV2 {
 
-  private final GunsService gunsService;
+  private final GunsServiceImpl gunsService;
 
   @GetMapping
   ResponseEntity<List<Gun>> getGuns() {
@@ -32,20 +32,18 @@ public class GunsControllerV2 {
   }
 
   @GetMapping(path = "{gunId}")
-  ResponseEntity<Gun> getGun(@PathVariable Long gunId) {
+  ResponseEntity<Gun> getGun(@PathVariable Long gunId, String start) {
     return new ResponseEntity<>(gunsService.getGun(gunId), HttpStatus.OK);
   }
 
   @PostMapping
   ResponseEntity<Void> addGuns(@RequestBody List<Gun> guns) {
-    log.info("POST request...");
     gunsService.createGuns(guns);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PutMapping(path = "{gunId}")
   ResponseEntity<Void> updateGun(@RequestBody Gun gun, @PathVariable Long gunId) {
-    log.info("Update request");
     gunsService.updateGun(gun, gunId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
@@ -53,14 +51,12 @@ public class GunsControllerV2 {
   @PatchMapping(path = "{gunId}")
   ResponseEntity<Void> updatePatchGun(@RequestBody PartialGunDTO partialGunDTO,
       @PathVariable Long gunId) {
-    log.info("Patch request");
     gunsService.updatePartialGun(partialGunDTO, gunId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @DeleteMapping(path = "{gunId}")
   ResponseEntity<Void> deleteGun(@PathVariable Long gunId) {
-    log.info("Delete request for gunId: " + gunId);
     gunsService.deleteGunById(gunId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
