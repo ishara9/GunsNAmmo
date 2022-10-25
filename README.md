@@ -4,6 +4,14 @@
 
      http://localhost:8080/swagger-ui.html
 
+### Actuator
+
+    http://localhost:8080/actuator
+
+### H2 Database console
+
+    http://localhost:8080/h2
+
 ## Run application
 
     mvn spring-boot:run
