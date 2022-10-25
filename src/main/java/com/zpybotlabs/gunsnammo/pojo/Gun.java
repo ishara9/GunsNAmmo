@@ -7,9 +7,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
+@AllArgsConstructor
+@ToString
 public class Gun {
 
   @Id
@@ -25,13 +29,6 @@ public class Gun {
   String securityKey;
 
   public Gun() {
-  }
-
-  public Gun(long id, String name, String email, String securityKey) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.securityKey = securityKey;
   }
 
   @JsonProperty("gunId")
@@ -70,15 +67,5 @@ public class Gun {
   public Gun setEmail(String email) {
     this.email = email;
     return this;
-  }
-
-  @Override
-  public String toString() {
-    return "Gun{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", email='" + email + '\'' +
-        ", securityKey='" + securityKey + '\'' +
-        '}';
   }
 }
