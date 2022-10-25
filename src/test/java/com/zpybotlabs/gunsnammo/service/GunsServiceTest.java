@@ -49,7 +49,7 @@ class GunsServiceTest {
   @Test
   void createGuns_whenGunIsAvailable_shouldCreateAGun() {
     Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
-    gunsRepository.saveAll(List.of(gun));
+    gunsService.createGuns(List.of(gun));
     assertEquals("name", gunsService.getGun(1L).getName());
   }
 
