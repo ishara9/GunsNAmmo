@@ -6,29 +6,26 @@ import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
 import com.zpybotlabs.gunsnammo.pojo.Gun;
 import java.util.List;
 import javax.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
-@AllArgsConstructor
 public class GunsService {
 
-  private final GunsRepository gunsRepository;
+  private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+  @Autowired
+  private GunsRepository gunsRepository;
 
   public List<Gun> getGuns() {
     return gunsRepository.findAll();
   }
 
   public Gun getGun(Long gunId) {
-    log.debug("Get gun by Id: " + gunId);
+    LOGGER.debug("Get gun by Id: " + gunId);
     return gunsRepository.findAll().stream().filter(gun -> gun.getId().equals(gunId)).findFirst()
-        .orElseThrow(() -> {
-          log.error("error when getting gun {}", gunId);
-          return new ServerRequestException(
-              "gun not found with gunId:" + gunId);
-        });
+        .orElseThrow(() -> new ServerRequestException("gun not found with gunId:" + gunId));
   }
 
   public void createGuns(List<Gun> guns) {

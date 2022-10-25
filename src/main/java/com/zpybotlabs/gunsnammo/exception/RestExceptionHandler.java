@@ -1,5 +1,7 @@
 package com.zpybotlabs.gunsnammo.exception;
 
+import com.zpybotlabs.gunsnammo.exception.ApiException;
+import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
 import java.time.ZonedDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
