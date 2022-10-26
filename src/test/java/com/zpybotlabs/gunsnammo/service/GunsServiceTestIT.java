@@ -1,13 +1,10 @@
 package com.zpybotlabs.gunsnammo.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.atMostOnce;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
+import com.zpybotlabs.gunsnammo.dto.PartialGunDTO;
+import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
 import com.zpybotlabs.gunsnammo.model.Gun;
 import com.zpybotlabs.gunsnammo.repository.GunsRepository;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
@@ -15,15 +12,15 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 @DataJpaTest
-class GunsServiceTest {
+class GunsServiceTestIT {
 
   private GunsService gunsService;
 
-  @MockBean
+  @Autowired
   private GunsRepository gunsRepository;
 
   @BeforeEach
@@ -39,14 +36,14 @@ class GunsServiceTest {
   @Test
   void getGuns_whenAtLeastOneGunAvailable_returnGun() {
     Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
-    when(gunsRepository.findAll()).thenReturn(List.of(gun));
+    gunsRepository.saveAll(List.of(gun));
     assertEquals("name", gunsService.getGuns().get(0).getName());
   }
 
   @Test
   void getGun_whenAGunIsThere_getThatGun() {
     Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
-    when(gunsRepository.findAll()).thenReturn(List.of(gun));
+    gunsRepository.saveAll(List.of(gun));
     assertEquals("name", gunsService.getGun(1L).getName());
   }
 
@@ -54,13 +51,32 @@ class GunsServiceTest {
   void createGuns_whenGunIsAvailable_shouldCreateAGun() {
     Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
     gunsService.createGuns(List.of(gun));
-    verify(gunsRepository, atMostOnce()).saveAll(anyList());
+    assertEquals("name", gunsService.getGun(1L).getName());
   }
 
   @Test()
-  void deleteGunById_whenGunIsDeleted_calledDeleteMethodAtLeastOnce() {
+  void deleteGunById_whenGunIsDeleted_expectedException() {
+    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
+    gunsRepository.saveAll(List.of(gun));
     gunsService.deleteGunById(1L);
-    verify(gunsRepository, atLeastOnce()).deleteById(any());
+    assertThrowsExactly(ServerRequestException.class, () -> gunsService.getGun(1L));
   }
+
+  @Test
+  void updateGun_changedDetails_expectChanges() {
+    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
+    gunsRepository.saveAll(List.of(gun));
+    gunsService.updateGun(new Gun(1L, "name2", "email2@mail.com", "no secret"), 1L);
+    assertEquals("name2", gunsService.getGun(1L).getName());
+  }
+
+  @Test
+  void updatePartialGun_whenChangesPatched_getPatchedChanges() {
+    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
+    gunsRepository.saveAll(List.of(gun));
+    gunsService.updatePartialGun(new PartialGunDTO("namePatched"), 1L);
+    assertEquals("namePatched", gunsService.getGun(1L).getName());
+  }
+
 
 }
