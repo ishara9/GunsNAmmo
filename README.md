@@ -22,9 +22,9 @@
 
 ### request
 
-`POST /guns`
+`POST /guns-n-ammo/guns`
 
-    http://localhost:8080/api/v2/guns
+    http://localhost:8080/guns-n-ammo/api/v2/guns
 
     [
         {
@@ -43,25 +43,25 @@
 
 ### request
 
-`GET /guns/{gunId}`
+`GET /guns-n-ammo/guns/{gunId}`
 
-    curl -i -H 'Accept: application/json' http://localhost:8080/api/v2/guns/1
+    curl -i -H 'Accept: application/json' http://localhost:8080/guns-n-ammo/api/v2/guns/1
 
 ## Get all guns
 
 ### request
 
-`GET /guns`
+`GET /guns-n-ammo/guns`
 
-    curl -i -H 'Accept: application/json' http://localhost:8080/api/v1/guns
+    curl -i -H 'Accept: application/json' http://localhost:8080/guns-n-ammo/api/v1/guns
 
 ## Update a gun
 
 ### request
 
-`PUT /guns/{gunId}`
+`PUT /guns-n-ammo/guns/{gunId}`
 
-    http://localhost:8080/api/v2/guns/1
+    http://localhost:8080/guns-n-ammo/api/v2/guns/1
 
     {
         "gunId": 1,
@@ -73,17 +73,17 @@
 
 ### request
 
-`DELETE /guns/{gunId}`
+`DELETE /guns-n-ammo/guns/{gunId}`
 
-    http://localhost:8080/api/v2/guns/2
+    http://localhost:8080/guns-n-ammo/api/v2/guns/2
 
 ## Partial update a gun
 
 ### request
 
-`PATCH /guns/{gunId}`
+`PATCH /guns-n-ammo/guns/{gunId}`
 
-    http://localhost:8080/api/v2/guns/1
+    http://localhost:8080/guns-n-ammo/api/v2/guns/1
 
     {
         "name": "M-16"    

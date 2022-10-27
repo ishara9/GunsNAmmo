@@ -1,7 +1,7 @@
 package com.zpybotlabs.gunsnammo.controller;
 
+import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
-import com.zpybotlabs.gunsnammo.model.Gun;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -24,18 +24,18 @@ public class GunsController {
   private final GunsServiceImpl gunsService;
 
   @GetMapping
-  List<Gun> getGuns() {
+  List<GunDTO> getGuns() {
     return gunsService.getGuns();
   }
 
   @GetMapping(path = "{gunId}")
-  Gun getGun(@PathVariable Long gunId) {
+  GunDTO getGun(@PathVariable Long gunId) {
     log.info("POST request...");
     return gunsService.getGun(gunId);
   }
 
   @PostMapping
-  void addGun(@RequestBody Gun gun) {
+  void addGun(@RequestBody GunDTO gun) {
     log.info("POST request...");
     log.debug("{}", gun);
   }
@@ -46,13 +46,13 @@ public class GunsController {
   }
 
   @PutMapping
-  void updateGun(@RequestBody Gun gun) {
+  void updateGun(@RequestBody GunDTO gun) {
     log.info("Update request");
     log.debug("{}", gun);
   }
 
   @GetMapping(path = "{gunId}/ex")
-  Gun getGunEx(@PathVariable Long gunId) {
+  GunDTO getGunEx(@PathVariable Long gunId) {
     throw new ClientRequestException("gunId : " + gunId);
   }
 }

@@ -1,14 +1,18 @@
 package com.zpybotlabs.gunsnammo.service.impl;
 
-import com.zpybotlabs.gunsnammo.repository.GunsRepository;
-import com.zpybotlabs.gunsnammo.dto.PartialGunDTO;
+import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
 import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.repository.GunsRepository;
 import com.zpybotlabs.gunsnammo.service.GunsService;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,16 +21,20 @@ import org.springframework.stereotype.Service;
 public class GunsServiceImpl implements GunsService {
 
   private final GunsRepository gunsRepository;
+  private final ModelMapper modelMapper;
 
   @Override
-  public List<Gun> getGuns() {
-    return gunsRepository.findAll();
+  public List<GunDTO> getGuns() {
+    return gunsRepository.findAll().stream().map(gun -> modelMapper.map(gun, GunDTO.class)).collect(
+        Collectors.toList());
   }
 
   @Override
-  public Gun getGun(Long gunId) {
+  public GunDTO getGun(Long gunId) {
     log.debug("Get gun by Id: " + gunId);
-    return gunsRepository.findAll().stream().filter(gun -> gun.getId().equals(gunId)).findFirst()
+    return gunsRepository.findAll().stream().filter(gun -> gun.getId().equals(gunId))
+        .map(gun -> modelMapper.map(gun, GunDTO.class))
+        .findFirst()
         .orElseThrow(() -> {
           log.error("error when getting gun {}", gunId);
           return new ServerRequestException("gun not found with gunId:" + gunId);
@@ -34,7 +42,9 @@ public class GunsServiceImpl implements GunsService {
   }
 
   @Override
-  public void createGuns(List<Gun> guns) {
+  public void createGuns(List<GunDTO> gunDTOs) {
+    List<Gun> guns = modelMapper.map(gunDTOs, new TypeToken<List<Gun>>() {
+    }.getType());
     gunsRepository.saveAll(guns);
   }
 
@@ -45,16 +55,20 @@ public class GunsServiceImpl implements GunsService {
 
   @Override
   @Transactional
-  public void updateGun(Gun gun, Long gunId) {
+  public void updateGun(GunDTO gunDTO, Long gunId) {
     gunsRepository.findById(gunId)
-        .ifPresent(value -> value.setName(gun.getName()).setEmail(gun.getEmail())
-            .setSecurityKey(gun.getSecurityKey()));
+        .ifPresent(value -> value.setName(gunDTO.getName()).setEmail(gunDTO.getEmail())
+            .setSecurityKey(gunDTO.getSecurityKey()));
   }
 
   @Override
   @Transactional
-  public void updatePartialGun(PartialGunDTO partialGunDTO, Long gunId) {
+  public void updatePartialGun(GunDTO gunDTO, Long gunId) {
     gunsRepository.findById(gunId)
-        .ifPresent(value -> value.setName(partialGunDTO.getName()));
+        .ifPresent(value -> {
+          Optional.ofNullable(gunDTO.getName()).map(value::setName);
+          Optional.ofNullable(gunDTO.getEmail()).map(value::setEmail);
+          Optional.ofNullable(gunDTO.getSecurityKey()).map(value::setSecurityKey);
+        });
   }
 }

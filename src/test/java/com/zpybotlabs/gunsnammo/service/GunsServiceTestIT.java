@@ -3,7 +3,7 @@ package com.zpybotlabs.gunsnammo.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
-import com.zpybotlabs.gunsnammo.dto.PartialGunDTO;
+import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
 import com.zpybotlabs.gunsnammo.model.Gun;
 import com.zpybotlabs.gunsnammo.repository.GunsRepository;
@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -25,7 +26,7 @@ class GunsServiceTestIT {
 
   @BeforeEach
   void setUp() {
-    gunsService = new GunsServiceImpl(gunsRepository);
+    gunsService = new GunsServiceImpl(gunsRepository, new ModelMapper());
   }
 
   @AfterEach
@@ -49,8 +50,8 @@ class GunsServiceTestIT {
 
   @Test
   void createGuns_whenGunIsAvailable_shouldCreateAGun() {
-    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
-    gunsService.createGuns(List.of(gun));
+    GunDTO GunDTO = new GunDTO(1L, "name", "email@mail.com", "1x3i3t");
+    gunsService.createGuns(List.of(GunDTO));
     assertEquals("name", gunsService.getGun(1L).getName());
   }
 
@@ -66,7 +67,7 @@ class GunsServiceTestIT {
   void updateGun_changedDetails_expectChanges() {
     Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
     gunsRepository.saveAll(List.of(gun));
-    gunsService.updateGun(new Gun(1L, "name2", "email2@mail.com", "no secret"), 1L);
+    gunsService.updateGun(new GunDTO(1L, "name2", "email2@mail.com", "no secret"), 1L);
     assertEquals("name2", gunsService.getGun(1L).getName());
   }
 
@@ -74,7 +75,7 @@ class GunsServiceTestIT {
   void updatePartialGun_whenChangesPatched_getPatchedChanges() {
     Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
     gunsRepository.saveAll(List.of(gun));
-    gunsService.updatePartialGun(new PartialGunDTO("namePatched"), 1L);
+    gunsService.updatePartialGun(GunDTO.builder().name("namePatched").build(), 1L);
     assertEquals("namePatched", gunsService.getGun(1L).getName());
   }
 

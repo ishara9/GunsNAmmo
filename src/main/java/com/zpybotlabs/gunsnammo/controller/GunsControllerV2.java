@@ -1,7 +1,6 @@
 package com.zpybotlabs.gunsnammo.controller;
 
-import com.zpybotlabs.gunsnammo.dto.PartialGunDTO;
-import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(path = "api/v2/guns")
+@RequestMapping(path = "guns-n-ammo/api/v2/guns")
 @RestController
 @Slf4j
 @AllArgsConstructor
@@ -27,29 +26,29 @@ public class GunsControllerV2 {
   private final GunsServiceImpl gunsService;
 
   @GetMapping
-  ResponseEntity<List<Gun>> getGuns() {
+  ResponseEntity<List<GunDTO>> getGuns() {
     return new ResponseEntity<>(gunsService.getGuns(), HttpStatus.OK);
   }
 
   @GetMapping(path = "{gunId}")
-  ResponseEntity<Gun> getGun(@PathVariable Long gunId, String start) {
+  ResponseEntity<GunDTO> getGun(@PathVariable Long gunId) {
     return new ResponseEntity<>(gunsService.getGun(gunId), HttpStatus.OK);
   }
 
   @PostMapping
-  ResponseEntity<Void> addGuns(@RequestBody List<Gun> guns) {
+  ResponseEntity<Void> addGuns(@RequestBody List<GunDTO> guns) {
     gunsService.createGuns(guns);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @PutMapping(path = "{gunId}")
-  ResponseEntity<Void> updateGun(@RequestBody Gun gun, @PathVariable Long gunId) {
-    gunsService.updateGun(gun, gunId);
+  ResponseEntity<Void> updateGun(@RequestBody GunDTO GunDTO, @PathVariable Long gunId) {
+    gunsService.updateGun(GunDTO, gunId);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PatchMapping(path = "{gunId}")
-  ResponseEntity<Void> updatePatchGun(@RequestBody PartialGunDTO partialGunDTO,
+  ResponseEntity<Void> updatePatchGun(@RequestBody GunDTO partialGunDTO,
       @PathVariable Long gunId) {
     gunsService.updatePartialGun(partialGunDTO, gunId);
     return new ResponseEntity<>(HttpStatus.OK);

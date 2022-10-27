@@ -8,6 +8,7 @@ import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.model.Gun;
 import com.zpybotlabs.gunsnammo.repository.GunsRepository;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
@@ -15,6 +16,8 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Spy;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -26,9 +29,12 @@ class GunsServiceTest {
   @MockBean
   private GunsRepository gunsRepository;
 
+  @Spy
+  ModelMapper modelMapper;
+
   @BeforeEach
   void setUp() {
-    gunsService = new GunsServiceImpl(gunsRepository);
+    gunsService = new GunsServiceImpl(gunsRepository, modelMapper);
   }
 
   @AfterEach
@@ -52,7 +58,7 @@ class GunsServiceTest {
 
   @Test
   void createGuns_whenGunIsAvailable_shouldCreateAGun() {
-    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
+    GunDTO gun = new GunDTO(1L, "name", "email@mail.com", "1x3i3t");
     gunsService.createGuns(List.of(gun));
     verify(gunsRepository, atMostOnce()).saveAll(anyList());
   }

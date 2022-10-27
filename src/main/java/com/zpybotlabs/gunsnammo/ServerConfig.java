@@ -1,5 +1,6 @@
 package com.zpybotlabs.gunsnammo;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,15 @@ public class ServerConfig {
       LOGGER.info("Well-done app run successfully!");
       System.out.println(environment.getProperty("info.app.name"));
     };
+  }
+
+  @Bean
+  public ModelMapper modelMapper() {
+    ModelMapper modelMapper = new ModelMapper();
+    modelMapper.getConfiguration()
+        .setFieldMatchingEnabled(true)
+        .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+    return modelMapper;
   }
 
 }

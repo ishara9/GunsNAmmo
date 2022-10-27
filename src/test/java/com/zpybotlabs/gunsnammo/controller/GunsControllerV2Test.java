@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 
-import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -36,16 +36,16 @@ class GunsControllerV2Test {
 
   @Test
   void getGuns() throws Exception {
-    List<Gun> mockGuns = List.of(new Gun(1L, "name", "mail@mail.com", "1x2i3e"));
+    List<GunDTO> mockGuns = List.of(new GunDTO(1L, "name", "mail@mail.com", "1x2i3e"));
     Mockito.when(gunsService.getGuns()).thenReturn(mockGuns);
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-        "/api/v2/guns").accept(
+        "/guns-n-ammo/api/v2/guns").accept(
         MediaType.APPLICATION_JSON);
 
     MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-    String expected = "[{\"name\":\"name\",\"email\":\"mail@mail.com\",\"gunId\":1}]";
+    String expected = "[{\"name\":\"name\",\"email\":\"mail@mail.com\",\"id\":1}]";
 
     JSONAssert.assertEquals(expected, result.getResponse()
         .getContentAsString(), false);
@@ -53,16 +53,16 @@ class GunsControllerV2Test {
 
   @Test
   void getGun() throws Exception {
-    Gun mockGun = new Gun(1L, "name", "mail@mail.com", "1x2i3e");
+    GunDTO mockGun = new GunDTO(1L, "name", "mail@mail.com", "1x2i3e");
     Mockito.when(gunsService.getGun(anyLong())).thenReturn(mockGun);
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-        "/api/v2/guns/1").accept(
+        "/guns-n-ammo/api/v2/guns/1").accept(
         MediaType.APPLICATION_JSON);
 
     MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-    String expected = "{\"name\":\"name\",\"email\":\"mail@mail.com\",\"gunId\":1}";
+    String expected = "{\"name\":\"name\",\"email\":\"mail@mail.com\",\"id\":1}";
 
     JSONAssert.assertEquals(expected, result.getResponse()
         .getContentAsString(), false);
@@ -72,7 +72,7 @@ class GunsControllerV2Test {
   void addGuns() throws Exception {
     doNothing().when(gunsService).createGuns(anyList());
     String input = "[{\"name\":\"name\",\"email\":\"mail@mail.com\",\"gunId\":1}]";
-    RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v2/guns")
+    RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/guns-n-ammo/api/v2/guns")
         .content(input)
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON);
@@ -84,9 +84,9 @@ class GunsControllerV2Test {
 
   @Test
   void updateGun() throws Exception {
-    doNothing().when(gunsService).updateGun(any(Gun.class), anyLong());
+    doNothing().when(gunsService).updateGun(any(GunDTO.class), anyLong());
     String input = "{\"name\":\"name\",\"email\":\"mail@mail.com\",\"gunId\":1}";
-    RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/v2/guns/1")
+    RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/guns-n-ammo/api/v2/guns/1")
         .content(input)
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON);
@@ -98,9 +98,9 @@ class GunsControllerV2Test {
 
   @Test
   void updatePatchGun() throws Exception {
-    doNothing().when(gunsService).updateGun(any(Gun.class), anyLong());
+    doNothing().when(gunsService).updateGun(any(GunDTO.class), anyLong());
     String input = "{\"name\": \"M-16\" }";
-    RequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/api/v2/guns/1")
+    RequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/guns-n-ammo/api/v2/guns/1")
         .content(input)
         .contentType(MediaType.APPLICATION_JSON)
         .accept(MediaType.APPLICATION_JSON);
@@ -112,8 +112,8 @@ class GunsControllerV2Test {
 
   @Test
   void deleteGun() throws Exception {
-    doNothing().when(gunsService).updateGun(any(Gun.class), anyLong());
-    RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v2/guns/1")
+    doNothing().when(gunsService).updateGun(any(GunDTO.class), anyLong());
+    RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/guns-n-ammo/api/v2/guns/1")
         .accept(MediaType.APPLICATION_JSON);
 
     MvcResult result = mockMvc.perform(requestBuilder).andReturn();
