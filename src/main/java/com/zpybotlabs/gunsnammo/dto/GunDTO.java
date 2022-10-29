@@ -1,6 +1,8 @@
 package com.zpybotlabs.gunsnammo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.zpybotlabs.gunsnammo.model.Ammo;
+import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -26,4 +28,6 @@ public class GunDTO {
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   String securityKey;
+
+  private Set<Ammo> ammoSet;
 }

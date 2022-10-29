@@ -32,7 +32,7 @@ public class GunsServiceImpl implements GunsService {
   @Override
   public GunDTO getGun(Long gunId) {
     log.debug("Get gun by Id: " + gunId);
-    return gunsRepository.findAll().stream().filter(gun -> gun.getId().equals(gunId))
+    return gunsRepository.findAll().stream().filter(gun -> gun.getGunId().equals(gunId))
         .map(gun -> modelMapper.map(gun, GunDTO.class))
         .findFirst()
         .orElseThrow(() -> {

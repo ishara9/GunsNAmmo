@@ -1,0 +1,12 @@
+package com.zpybotlabs.gunsnammo.dto;
+
+public enum BulletType {
+  LEAD_ROUND_NOSE,
+  WAD_CUTTER,
+  SEMI_WAD_CUTTER,
+  SEMI_JACKETED,
+  FULL_METAL_JACKET,
+  SEMI_JACKETED_HOLLOW_POINT,
+  JACKETED_HOLLOW_POINT,
+  SPECIAL
+}

@@ -2,8 +2,10 @@ package com.zpybotlabs.gunsnammo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +19,7 @@ import lombok.ToString;
 public class Gun {
 
   @Id
-  Long id;
+  Long gunId;
   @NotBlank(message = "name must not be empty!")
   String name;
 
@@ -28,16 +30,18 @@ public class Gun {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   String securityKey;
 
+  @OneToMany(mappedBy = "gun")
+  private Set<Ammo> ammoSet;
   public Gun() {
   }
 
   @JsonProperty("gunId")
-  public Long getId() {
-    return id;
+  public Long getGunId() {
+    return gunId;
   }
 
-  public Gun setId(Long id) {
-    this.id = id;
+  public Gun setGunId(Long gunId) {
+    this.gunId = gunId;
     return this;
   }
 
