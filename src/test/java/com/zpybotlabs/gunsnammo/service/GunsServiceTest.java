@@ -12,6 +12,7 @@ import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.model.Gun;
 import com.zpybotlabs.gunsnammo.repository.GunsRepository;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@DataJpaTest
+@DataJpaTest(showSql = false)
 class GunsServiceTest {
 
   private GunsService gunsService;
@@ -44,21 +45,21 @@ class GunsServiceTest {
 
   @Test
   void getGuns_whenAtLeastOneGunAvailable_returnGun() {
-    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
+    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t", Collections.emptySet());
     when(gunsRepository.findAll()).thenReturn(List.of(gun));
     assertEquals("name", gunsService.getGuns().get(0).getName());
   }
 
   @Test
   void getGun_whenAGunIsThere_getThatGun() {
-    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t");
+    Gun gun = new Gun(1L, "name", "email@mail.com", "1x3i3t", Collections.emptySet());
     when(gunsRepository.findAll()).thenReturn(List.of(gun));
     assertEquals("name", gunsService.getGun(1L).getName());
   }
 
   @Test
   void createGuns_whenGunIsAvailable_shouldCreateAGun() {
-    GunDTO gun = new GunDTO(1L, "name", "email@mail.com", "1x3i3t");
+    GunDTO gun = new GunDTO(1L, "name", "email@mail.com", "1x3i3t", Collections.emptySet());
     gunsService.createGuns(List.of(gun));
     verify(gunsRepository, atMostOnce()).saveAll(anyList());
   }

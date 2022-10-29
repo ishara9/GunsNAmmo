@@ -36,7 +36,8 @@ class GunsControllerV2Test {
 
   @Test
   void getGuns() throws Exception {
-    List<GunDTO> mockGuns = List.of(new GunDTO(1L, "name", "mail@mail.com", "1x2i3e"));
+    List<GunDTO> mockGuns = List.of(
+        GunDTO.builder().id(1L).name("name").email("mail@mail.com").securityKey("1x2i3e").build());
     Mockito.when(gunsService.getGuns()).thenReturn(mockGuns);
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
@@ -53,7 +54,8 @@ class GunsControllerV2Test {
 
   @Test
   void getGun() throws Exception {
-    GunDTO mockGun = new GunDTO(1L, "name", "mail@mail.com", "1x2i3e");
+    GunDTO mockGun = GunDTO.builder().id(1L).name("name").email("mail@mail.com")
+        .securityKey("1x2i3e").build();
     Mockito.when(gunsService.getGun(anyLong())).thenReturn(mockGun);
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
