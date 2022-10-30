@@ -6,6 +6,7 @@ import com.zpybotlabs.gunsnammo.dto.ErrorDTO;
 import com.zpybotlabs.gunsnammo.exception.ClientRequestException;
 import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
 import java.time.ZonedDateTime;
+import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ import org.springframework.web.context.request.WebRequest;
 @Slf4j
 public class RestExceptionHandler {
 
-  @ExceptionHandler(value = ClientRequestException.class)
-  public ResponseEntity<ErrorDTO> handleClientRequestException(ClientRequestException e,
+  @ExceptionHandler(value = { ClientRequestException.class, ConstraintViolationException.class})
+  public ResponseEntity<ErrorDTO> handleClientRequestException(RuntimeException e,
       WebRequest request) {
     ErrorDTO errorDTO = new ErrorDTO(
         e.getMessage(),

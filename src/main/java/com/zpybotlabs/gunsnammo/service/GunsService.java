@@ -52,4 +52,6 @@ public interface GunsService {
    */
   @Transactional
   void updatePartialGun(GunDTO gunDTO, Long gunId);
+
+  List<GunDTO> getGunsWithEmail(String email);
 }

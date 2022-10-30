@@ -2,15 +2,15 @@
 
 ### Swagger
 
-     http://localhost:8080/swagger-ui.html
+     http://localhost:8080/guns-n-ammo/swagger-ui.html
 
 ### Actuator
 
-    http://localhost:8080/actuator
+    http://localhost:8080/guns-n-ammo/actuator
 
 ### H2 Database console
 
-    http://localhost:8080/h2
+    http://localhost:8080/guns-n-ammo/h2
 
 ## Run application
 

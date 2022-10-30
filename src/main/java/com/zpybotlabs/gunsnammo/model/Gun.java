@@ -2,11 +2,14 @@ package com.zpybotlabs.gunsnammo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
@@ -17,7 +20,11 @@ import lombok.ToString;
 public class Gun {
 
   @Id
+  @GeneratedValue
   Long id;
+  @Column(length = 100)
+//  @Pattern(regexp = "^[a-zA-Z0-9]*$")
+  @Pattern(regexp = "^[a-zA-Z0-9.\\-\\/+=@_ ]*$")
   @NotBlank(message = "name must not be empty!")
   String name;
 

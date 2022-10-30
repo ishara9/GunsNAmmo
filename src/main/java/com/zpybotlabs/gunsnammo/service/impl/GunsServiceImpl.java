@@ -7,7 +7,10 @@ import com.zpybotlabs.gunsnammo.repository.GunsRepository;
 import com.zpybotlabs.gunsnammo.service.GunsService;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,5 +73,23 @@ public class GunsServiceImpl implements GunsService {
           Optional.ofNullable(gunDTO.getEmail()).map(value::setEmail);
           Optional.ofNullable(gunDTO.getSecurityKey()).map(value::setSecurityKey);
         });
+  }
+
+  @Override
+  @Transactional
+  public List<GunDTO> getGunsWithEmail(String email) {
+    Stream<Gun> allGunsWithEmail = gunsRepository.findAllGunsWithEmail();
+    List<Gun> collect = allGunsWithEmail.filter(gun -> gun.getEmail().contains(email)).collect(Collectors.toList());
+    System.out.println(collect);
+    CompletableFuture<Gun> gunFuture = gunsRepository.findGunByName("Ak47f");
+    try {
+      Gun gun = gunFuture.get();
+      System.out.println(gun);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    } catch (ExecutionException e) {
+      throw new RuntimeException(e);
+    }
+    return modelMapper.map(collect, new TypeToken<List<GunDTO>>(){}.getType());
   }
 }
