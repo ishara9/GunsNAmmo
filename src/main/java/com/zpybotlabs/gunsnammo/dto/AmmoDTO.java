@@ -1,6 +1,5 @@
 package com.zpybotlabs.gunsnammo.dto;
 
-import com.zpybotlabs.gunsnammo.model.Gun;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -15,5 +15,5 @@ public interface AmmoService {
   void createAmmo(AmmoDTO ammoDTOs);
 
   List<AmmoDTO> getAllAmmo();
-
+  void createAmmo(Long gunId, List<AmmoDTO> ammoDTOList);
 }

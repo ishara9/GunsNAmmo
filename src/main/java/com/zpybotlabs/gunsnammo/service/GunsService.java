@@ -2,6 +2,7 @@ package com.zpybotlabs.gunsnammo.service;
 
 import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import java.util.List;
+import java.util.UUID;
 import javax.transaction.Transactional;
 
 public interface GunsService {
@@ -52,4 +53,12 @@ public interface GunsService {
    */
   @Transactional
   void updatePartialGun(GunDTO gunDTO, Long gunId);
+
+  /**
+   *
+   * @param gunId
+   * @param ammoDTOList
+   */
+  @Transactional
+  void reload(Long gunId, List<UUID> ammoDTOList);
 }

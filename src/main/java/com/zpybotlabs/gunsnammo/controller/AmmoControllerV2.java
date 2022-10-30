@@ -1,7 +1,6 @@
 package com.zpybotlabs.gunsnammo.controller;
 
 import com.zpybotlabs.gunsnammo.dto.AmmoDTO;
-import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.service.AmmoService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(path = "guns-n-ammo/api/v2/ammo")
+@RequestMapping(path = "api/v2/ammo")
 @RestController
 @Slf4j
 @AllArgsConstructor

@@ -1,8 +1,11 @@
 package com.zpybotlabs.gunsnammo.controller;
 
+import com.zpybotlabs.gunsnammo.dto.AmmoDTO;
 import com.zpybotlabs.gunsnammo.dto.GunDTO;
+import com.zpybotlabs.gunsnammo.service.AmmoService;
 import com.zpybotlabs.gunsnammo.service.impl.GunsServiceImpl;
 import java.util.List;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,13 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(path = "guns-n-ammo/api/v2/guns")
+@RequestMapping(path = "api/v2/guns")
 @RestController
 @Slf4j
 @AllArgsConstructor
 public class GunsControllerV2 {
 
   private final GunsServiceImpl gunsService;
+  private final AmmoService ammoService;
 
   @GetMapping
   ResponseEntity<List<GunDTO>> getGuns() {
@@ -58,5 +62,22 @@ public class GunsControllerV2 {
   ResponseEntity<Void> deleteGun(@PathVariable Long gunId) {
     gunsService.deleteGunById(gunId);
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping(path = "{gunId}/new-ammo")
+  ResponseEntity<Void> createAmmo(@PathVariable Long gunId, @RequestBody List<AmmoDTO> ammo) {
+    ammoService.createAmmo(gunId, ammo);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @PostMapping(path = "{gunId}/ammo")
+  ResponseEntity<Void> reload(@PathVariable Long gunId, @RequestBody List<UUID> ammoId) {
+    gunsService.reload(gunId, ammoId);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @GetMapping(path = "{gunId}/ammo")
+  ResponseEntity<List<AmmoDTO>> getAmmo(@PathVariable Long gunId) {
+    return new ResponseEntity<>(gunsService.getAmmoByGunId(gunId), HttpStatus.OK);
   }
 }

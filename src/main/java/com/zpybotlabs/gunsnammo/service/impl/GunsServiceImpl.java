@@ -1,12 +1,16 @@
 package com.zpybotlabs.gunsnammo.service.impl;
 
+import com.zpybotlabs.gunsnammo.dto.AmmoDTO;
 import com.zpybotlabs.gunsnammo.dto.GunDTO;
 import com.zpybotlabs.gunsnammo.exception.ServerRequestException;
+import com.zpybotlabs.gunsnammo.model.Ammo;
 import com.zpybotlabs.gunsnammo.model.Gun;
+import com.zpybotlabs.gunsnammo.repository.AmmoRepository;
 import com.zpybotlabs.gunsnammo.repository.GunsRepository;
 import com.zpybotlabs.gunsnammo.service.GunsService;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -21,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class GunsServiceImpl implements GunsService {
 
   private final GunsRepository gunsRepository;
+  private final AmmoRepository ammoRepository;
   private final ModelMapper modelMapper;
 
   @Override
@@ -70,5 +75,21 @@ public class GunsServiceImpl implements GunsService {
           Optional.ofNullable(gunDTO.getEmail()).map(value::setEmail);
           Optional.ofNullable(gunDTO.getSecurityKey()).map(value::setSecurityKey);
         });
+  }
+
+  @Override
+  @Transactional
+  public void reload(Long gunId, List<UUID> ammoDTOList) {
+    Optional<Gun> gunById = gunsRepository.findById(gunId);
+    if (gunById.isPresent()) {
+      Gun gun = gunById.get();
+      List<Ammo> allById = ammoRepository.findAllByIdIn(ammoDTOList);
+      allById.forEach(ammo -> ammo.setGun(gun));
+    }
+  }
+
+  public List<AmmoDTO> getAmmoByGunId(Long gunId) {
+    return modelMapper.map(ammoRepository.findAllByGun_gunId(gunId), new TypeToken<List<AmmoDTO>>() {
+    }.getType());
   }
 }
