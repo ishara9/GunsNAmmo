@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
+
+import com.zpybotlabs.gunsnammo.service.LogExecutionTime;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -23,6 +25,7 @@ public class GunsServiceImpl implements GunsService {
   private final GunsRepository gunsRepository;
   private final ModelMapper modelMapper;
 
+  @LogExecutionTime
   @Override
   public List<GunDTO> getGuns() {
     return gunsRepository.findAll().stream().map(gun -> modelMapper.map(gun, GunDTO.class)).collect(
