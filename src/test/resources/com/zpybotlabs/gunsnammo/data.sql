@@ -1,4 +1,4 @@
-INSERT INTO GUN (name) VALUES ('India');
-INSERT INTO GUN (name) VALUES ('Brazil');
-INSERT INTO GUN (name) VALUES ('USA');
-INSERT INTO GUN (name) VALUES ('Italy');
+INSERT INTO GUN (id, name) VALUES (567 ,'India');
+INSERT INTO GUN (id, name) VALUES (568 ,'Brazil');
+INSERT INTO GUN (id, name) VALUES (569 ,'USA');
+INSERT INTO GUN (id, name) VALUES (560 ,'Italy');

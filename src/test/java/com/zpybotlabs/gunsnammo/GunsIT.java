@@ -32,7 +32,7 @@ public class GunsIT {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Sql({"schema.sql", "data.sql"})
+    @Sql({"data.sql"})
     @Test
     @Order(1)
     public void testAllGuns() {
