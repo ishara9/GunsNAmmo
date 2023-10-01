@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(path = "guns-n-ammo/api/v2/guns")
+@RequestMapping(path = "/api/v2/guns")
 @RestController
 @Slf4j
 @AllArgsConstructor
