@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RequestMapping(path = "/api/v2/guns")
 @RestController
 @Slf4j
@@ -36,7 +38,7 @@ public class GunsControllerV2 {
   }
 
   @PostMapping
-  ResponseEntity<Void> addGuns(@RequestBody List<GunDTO> guns) {
+  ResponseEntity<Void> addGuns(@Valid @RequestBody List<GunDTO> guns) {
     gunsService.createGuns(guns);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }

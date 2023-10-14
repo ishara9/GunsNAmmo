@@ -52,4 +52,24 @@ public class GunsIT {
         assertEquals(201, responseEntity.getStatusCodeValue());
     }
 
+    @Test
+    @Order(3)
+    public void testAddGuns_whenEmailInvalid_throwException() {
+
+        List<GunDTO> guns = List.of(new GunDTO(123L, "Ishrav", "ishara", "secret"));
+        ResponseEntity<Void> responseEntity = this.restTemplate
+                .postForEntity("http://localhost:" + port + "/api/v2/guns", guns, Void.class);
+        assertEquals(500, responseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    @Order(3)
+    public void testAddGuns_whenNameEmpty_throwException() {
+
+        List<GunDTO> guns = List.of(new GunDTO(123L, "", "ishara@gmail.com", "secret"));
+        ResponseEntity<Void> responseEntity = this.restTemplate
+                .postForEntity("http://localhost:" + port + "/api/v2/guns", guns, Void.class);
+        assertEquals(500, responseEntity.getStatusCodeValue());
+    }
+
 }

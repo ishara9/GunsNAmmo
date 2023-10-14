@@ -8,7 +8,6 @@ import com.zpybotlabs.gunsnammo.service.GunsService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 
 import com.zpybotlabs.gunsnammo.service.LogExecutionTime;
 import lombok.AllArgsConstructor;
@@ -16,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -45,6 +47,7 @@ public class GunsServiceImpl implements GunsService {
   }
 
   @Override
+  @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
   public void createGuns(List<GunDTO> gunDTOs) {
     List<Gun> guns = modelMapper.map(gunDTOs, new TypeToken<List<Gun>>() {
     }.getType());
